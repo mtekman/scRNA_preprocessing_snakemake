@@ -1,0 +1,184 @@
+#BATCHES = [x for x in range(1,8)]
+BATCHES = ["1"]
+
+GENOMEDIR="/storage/static_data/mm10/"
+MAX_THREAD=4
+REF_GTF="/storage/static_data/mm10/mm10.gtf"
+
+#BARCODE_FORMAT="CCCCCCNNNNNN"
+BARCODE_FORMAT="NNNNNNCCCCCC"
+BARCODE_EXTRACT="string"
+BARCODES_EVEN="input_dir/barcodes001-096.txt"
+BARCODES_ODD ="input_dir/barcodes097-192.txt"
+
+__DIR_STATIC = "static_data"
+__DIR_RESULTS = "results_"+BARCODE_FORMAT
+__DIR_RESULTS_SAMPLE =__DIR_RESULTS+"/{sample}"
+
+STAR_GENOMEDIR = __DIR_STATIC + "/genomes/star_index/"
+
+
+rule all:
+   input:
+       __DIR_RESULTS + "/complete_count_matrix.tsv"
+
+
+rule mergeCounts:
+    input:
+        expand(__DIR_RESULTS_SAMPLE + "/6_renamedmatrix/relabelled.matrix", sample = BATCHES)
+    output:
+        __DIR_RESULTS + "/complete_count_matrix.tsv"
+    shell:
+        "join -j 1 {input} > {output}"
+
+
+rule renameCountHeaders:
+    input:
+        __DIR_RESULTS_SAMPLE + "/5_countmatrix/counts.matrix"
+    output:
+        __DIR_RESULTS_SAMPLE + "/6_renamedmatrix/relabelled.matrix"
+    run:
+        shell('''
+        cat {input} | sed 1 s|\b[0-9]+_([ACTG]+)[_0-9.tx]+\b|F{sample}_\1|g > {output}
+        ''')
+
+
+rule countGenesPerCell:
+    input:
+        __DIR_RESULTS_SAMPLE + "/4_sortedbam/sorted.bam"
+    output:
+        __DIR_RESULTS_SAMPLE + "/5_countmatrix/counts.matrix"
+    shell:
+        "umi_tools counts --per-gene --gene-tag=XT --per-cell -I {input} -S {output}"
+
+
+rule reindexBam:
+    input:
+        __DIR_RESULTS_SAMPLE + "/3_featurecounts/Aligned.sortedByCoord.out.bam.featureCounts.bam"
+    output:
+        bam=__DIR_RESULTS_SAMPLE + "/4_sortedbam/sorted.bam",
+        bai=__DIR_RESULTS_SAMPLE + "/4_sortedbam/sorted.bam.bai"
+    run:
+        shell("samtools sort {input} -o {output.bam}"),
+        shell("samtools index {output.bam}")
+
+
+rule reads2Genes:
+    input:
+        __DIR_RESULTS_SAMPLE + "/2_starmap/Aligned.sortedByCoord.out.bam"
+    output:
+        bam=__DIR_RESULTS_SAMPLE + "/3_featurecounts/Aligned.sortedByCoord.out.bam.featureCounts.bam",
+        cm=__DIR_RESULTS_SAMPLE + "/3_featurecounts/counts.tsv"
+    params:
+        threads=MAX_THREAD,
+        gtf=REF_GTF,
+    run:
+        shell("featureCounts -a {params.gtf} -o {output.cm}  -R BAM {input} -T {params.threads}"),
+        shell("mv Aligned.sortedByCoord.out.bam.featureCounts.bam {output}")
+
+
+        
+rule mapReads:
+    input:
+        fastq = __DIR_RESULTS_SAMPLE + "/1_umi_extract/R2_extracted.fastq",
+        genomedir = STAR_GENOMEDIR
+    output:
+        __DIR_RESULTS_SAMPLE + "/2_starmap/Aligned.sortedByCoord.out.bam"
+    params:
+        outdir = __DIR_RESULTS_SAMPLE + "/2_starmap/",
+        threads=MAX_THREAD,
+        outfilterMMMax=1,
+        readcommand="zcat",
+        outSAMtype="BAM"
+    run:
+        shell('''
+        STAR\
+        --readFilesIn {input.fastq}\
+        --genomeDir {input.genomedir}\
+        --runThreadN {params.threads}\
+        --readFilesCommand {params.readcommand}\
+        --outFilterMultimapNmax {params.outfilterMMMax}\
+        --outSAMtype {params.outSAMtype} SortedByCoordinate\
+        --outFileNamePrefix {params.outdir}
+        '''),
+        shell("mv Aligned.sortedByCoord.out.bam {output}")
+
+
+rule extractBCsAndUmis:
+    input:
+        read1="input_dir/FACS{sample}_R1.fastq",
+        read2="input_dir/FACS{sample}_R2.fastq",
+        whitelist="input_dir/barcodes.total" # Sagar uses all to check for cross-contamination
+    output:
+        read1=__DIR_RESULTS_SAMPLE + "/1_umi_extract/R1_extracted.fastq",
+        read2=__DIR_RESULTS_SAMPLE + "/1_umi_extract/R2_extracted.fastq",
+        log=__DIR_RESULTS_SAMPLE + "/1_umi_extract/log.txt"
+    params:
+        bc_pattern=BARCODE_FORMAT,
+        extract_method=BARCODE_EXTRACT
+    shell:
+        '''
+        umi_tools extract\
+        --filter-cell-barcode\
+        --whitelist='{input.whitelist}'\
+        --extract-method='{params.extract_method}'\
+        --bc-pattern='{params.bc_pattern}'\
+        --stdin='{input.read1}'\
+        --read2-in='{input.read2}'\
+        --stdout='{output.read1}'\
+        --read2-out='{output.read2}'\
+        --log='{output.log}'
+        '''
+
+
+rule makeBarcodes:
+    input:
+        odds=BARCODES_ODD,
+        even=BARCODES_EVEN
+    output:
+        "input_dir/barcodes.total"
+    shell:
+        "cat {input.odds} {input.even} | cut -f 2 > {output}"
+
+
+
+
+###### Generating a STAR index  ######
+genome_fasta = __DIR_STATIC + "/genomes/Danio_rerio.GRCz11.dna.primary_assembly.fa.gz"
+genome_gff = __DIR_STATIC + "/genomes/Danio_rerio.GRCz11.92.gff3.gz"
+
+STAR_OVERHANG = 100
+STAR_THREAD = 4
+
+
+rule generateStarIndex:
+    input:
+        fasta=genome_fasta,
+        gtf=genome_gtf
+    params:
+        runmode = "genomeGenerate",
+        genomedir = STAR_GENOMEDIR,
+        overhang = STAR_OVERHANG,
+        threads = STAR_THREAD
+    shell: '''
+    STAR\
+    --genomeDir {params.genomedir}\
+    --runMode {params.runmode}\
+    --genomeFastaFiles {input.fast}\
+    --sjdbGTFfile {input.gtf}\
+    --sjdbOverhang {params.overhang}\
+    --runThreadN {params.threads}
+    '''
+
+ 
+rule getDanioRerioGenomeAndGFF:
+    output:
+        fasta=genome_fasta,
+        gff=genome_gff
+    run:
+        shell("wget ftp://ftp.ensembl.org/pub/release-92/fasta/danio_rerio/dna/Danio_rerio.GRCz11.dna.primary_assembly.fa.gz -O {output.fasta}"),
+        shell("wget ftp://ftp.ensembl.org/pub/release-92/gff3/danio_rerio/Danio_rerio.GRCz11.92.gff3.gz -O {output.gff}")
+
+# Generating the flattened GTF file
+
+

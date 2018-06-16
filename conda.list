@@ -1,0 +1,144 @@
+# packages in environment at /extra/miniconda3/envs/dmq:
+#
+# Name                    Version                   Build  Channel
+aioeasywebdav             2.2.0                    py36_0    conda-forge
+aiohttp                   3.3.1                    py36_0    conda-forge
+appdirs                   1.4.3                     <pip>
+appdirs                   1.4.3                      py_0    conda-forge
+asn1crypto                0.24.0                   py36_0    conda-forge
+async-timeout             3.0.0                    py36_0    conda-forge
+attrs                     18.1.0                     py_1    conda-forge
+bcftools                  1.7                           0    bioconda
+bcrypt                    3.1.4            py36h621fe67_0  
+bedtools                  2.27.1                        1    bioconda
+boto3                     1.7.35                     py_0    conda-forge
+botocore                  1.10.35                    py_0    conda-forge
+bzip2                     1.0.6                         1    conda-forge
+ca-certificates           2018.4.16                     0    conda-forge
+cachetools                2.0.1                      py_0    conda-forge
+certifi                   2016.9.26                py36_0    conda-forge
+certifi                   2018.4.16                 <pip>
+cffi                      1.11.5                   py36_0    conda-forge
+chardet                   3.0.4                    py36_0    conda-forge
+chardet                   3.0.4                     <pip>
+configargparse            0.12.0                   py36_0    conda-forge
+ConfigArgParse            0.13.0                    <pip>
+cryptography              2.2.1                    py36_0    conda-forge
+curl                      7.60.0                        0    conda-forge
+cycler                    0.10.0                   py36_0    conda-forge
+cython                    0.28.3                   py36_0    conda-forge
+datrie                    0.7.1                    py36_0  
+datrie                    0.7.1                     <pip>
+dbus                      1.13.0               h3a4f0e9_0    conda-forge
+decorator                 4.3.0                     <pip>
+docutils                  0.14                      <pip>
+docutils                  0.14                     py36_0    conda-forge
+dropbox                   7.3.1                    py36_0    conda-forge
+expat                     2.2.5                         0    conda-forge
+filechunkio               1.6                      py36_0    bioconda
+fontconfig                2.12.6                        0    conda-forge
+freetype                  2.8.1                         0    conda-forge
+ftputil                   3.2                      py36_0    bioconda
+future                    0.16.0                   py36_0    conda-forge
+gettext                   0.19.8.1                      0    conda-forge
+glib                      2.55.0                        0    conda-forge
+google-auth               1.2.1                      py_0    conda-forge
+google-auth-httplib2      0.0.2                    py36_0    conda-forge
+google-cloud-core         0.24.1                   py36_0    conda-forge
+google-cloud-storage      1.1.1                    py36_0    conda-forge
+google-resumable-media    0.0.2                    py36_0    conda-forge
+googleapis-common-protos  1.5.3                    py36_0    conda-forge
+gst-plugins-base          1.8.0                         0    conda-forge
+gstreamer                 1.8.0                         1    conda-forge
+htslib                    1.7                           0    bioconda
+httplib2                  0.11.1                   py36_0    conda-forge
+icu                       58.2                          0    conda-forge
+idna                      2.6                      py36_1    conda-forge
+idna                      2.6                       <pip>
+idna_ssl                  1.0.0                         0    conda-forge
+intel-openmp              2018.0.3                      0  
+je-suite                  2.0.RC                        0    bioconda
+jinja2                    2.10                     py36_0    conda-forge
+Jinja2                    2.10                      <pip>
+jmespath                  0.9.3                    py36_0    conda-forge
+jpeg                      9b                            2    conda-forge
+jsonschema                2.6.0                    py36_1    conda-forge
+kiwisolver                1.0.1                    py36_1    conda-forge
+krb5                      1.14.6                        0    conda-forge
+libffi                    3.2.1                         3    conda-forge
+libgcc                    7.2.0                h69d50b8_2  
+libgcc-ng                 7.2.0                hdf63c60_3  
+libgfortran-ng            7.2.0                hdf63c60_3  
+libiconv                  1.15                          0    conda-forge
+libopenblas               0.2.20               h9ac9557_7  
+libpng                    1.6.34                        0    conda-forge
+libprotobuf               3.5.2                         0    conda-forge
+libssh2                   1.8.0                         2    conda-forge
+libstdcxx-ng              7.2.0                hdf63c60_3  
+libxcb                    1.13                          0    conda-forge
+libxml2                   2.9.8                         0    conda-forge
+MarkupSafe                1.0                       <pip>
+markupsafe                1.0                      py36_0    conda-forge
+matplotlib                2.2.2                    py36_1    conda-forge
+mkl                       2018.0.3                      1  
+multidict                 4.3.1                    py36_0    conda-forge
+ncurses                   5.9                          10    conda-forge
+networkx                  2.1                       <pip>
+numpy                     1.14.3           py36h28100ab_2  
+numpy-base                1.14.3           py36h0ea5e3f_1  
+openjdk                   8.0.121                       1  
+openssl                   1.0.2o                        0    conda-forge
+pandas                    0.23.0                   py36_1    conda-forge
+paramiko                  2.4.1                    py36_0    conda-forge
+pcre                      8.39                          0    conda-forge
+pip                       9.0.3                    py36_0    conda-forge
+prettytable               0.7.2                    py36_1    conda-forge
+protobuf                  3.5.2                    py36_0    conda-forge
+psutil                    5.4.6                    py36_0    conda-forge
+pyasn1                    0.4.3                      py_0    conda-forge
+pyasn1-modules            0.0.5                    py36_0    bioconda
+pycparser                 2.18                     py36_0    conda-forge
+pynacl                    1.1.2                    py36_0    conda-forge
+pyparsing                 2.2.0                    py36_0    conda-forge
+pyqt                      5.6.0                    py36_5    conda-forge
+pysam                     0.14.1          py36_htslib1.7_0    bioconda
+pysftp                    0.2.9                    py36_0    bioconda
+python                    3.6.5                         1    conda-forge
+python-dateutil           2.7.3                      py_0    conda-forge
+python-irodsclient        0.7.0                      py_0    conda-forge
+pytz                      2018.4                     py_0    conda-forge
+pyyaml                    3.12                     py36_1    conda-forge
+PyYAML                    3.12                      <pip>
+qt                        5.6.2                         7    conda-forge
+ratelimiter               1.2.0                    py36_0    conda-forge
+ratelimiter               1.2.0.post0               <pip>
+readline                  7.0                           0    conda-forge
+regex                     2016.06.24               py36_1    bioconda
+requests                  2.13.0                   py36_0    conda-forge
+requests                  2.18.4                    <pip>
+rsa                       3.1.4                    py36_0    bioconda
+s3transfer                0.1.13                   py36_0    conda-forge
+samtools                  1.7                           2    bioconda
+scipy                     1.1.0            py36hfc37229_0  
+setuptools                39.2.0                   py36_0    conda-forge
+sip                       4.18                     py36_1    conda-forge
+six                       1.11.0                   py36_1    conda-forge
+snakemake                 5.1.4                    py36_0    bioconda
+sqlite                    3.20.1                        2    conda-forge
+star                      2.6.0c                        0    bioconda
+subread                   1.6.1                         0    bioconda
+tk                        8.6.7                         0    conda-forge
+tornado                   5.0.2                    py36_0    conda-forge
+umi_tools                 0.5.3                    py36_0    bioconda
+urllib3                   1.22                      <pip>
+urllib3                   1.12                     py36_0    bioconda
+wheel                     0.31.0                   py36_0    conda-forge
+wrapt                     1.10.11                  py36_0    conda-forge
+wrapt                     1.10.11                   <pip>
+xmlrunner                 1.7.7                      py_0    conda-forge
+xorg-libxau               1.0.8                         3    conda-forge
+xorg-libxdmcp             1.1.2                         3    conda-forge
+xz                        5.2.3                         0    conda-forge
+yaml                      0.1.7                         0    conda-forge
+yarl                      1.2.5            py36h470a237_0    conda-forge
+zlib                      1.2.11               h470a237_3    conda-forge
